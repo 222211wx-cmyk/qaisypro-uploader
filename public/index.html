@@ -7,7 +7,648 @@
 <div id=txt></div>
 <pre id=out></pre>
 <script>
-const mb = (n) => (n / 1024 / 1024).toFixed(1);
+const mb = (n) => (n / 1024 / 1024).toFixed(1);<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qaisypro - Arena-Clips</title>
+<style>
+body{background:#0A0A0A;color:#fff;font-family:sans-serif;padding:16px}
+h1{color:#D4AF37}
+.btn-gold{background:#D4AF37;color:#000;border:none;padding:12px 28px;border-radius:25px;font-weight:700;cursor:pointer}
+.btn-dark{background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer}
+.card{background:#111;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #222}
+.progress{width:100%;height:10px;background:#222;border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:#D4AF37;width:0%}
+input{padding:10px;background:#111;color:#fff;border:1px solid #333;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Qaisypro</h1>
+<p style="color:#D4AF37">⚡ Arena-Clips - مربوط للعمل بالوحش - GDNA-ARENA</p>
+
+<div class="card">
+<h3>Arena-Clips - للعمل</h3>
+<p>أخد / لصق / مشاركة - خدام بالوحش ديال QAISYPRO</p>
+<input id="file" type="file" accept=".mp4,.mov,.jpg,.png,.zip">
+<br><br>
+<button class="btn-gold" onclick="upload()">رفع - خدم فـ Arena-Clips</button>
+<div class="progress" style="margin-top:12px"><div class="progress-bar" id="arenaBar"></div></div>
+<p id="st">جاهز...</p>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h3>قارئ سحابي</h3>
+<p id="stream">الملف غادي يبان هنا Chunk بـ Chunk...</p>
+<button class="btn-dark" onclick="loadFile()">قرا الملف</button>
+</div>
+
+<script>
+let jobId=null, fileName='';
+
+// الوحش - رفع Chunk بـ Chunk + Resume
+async function upload(){
+  const f=document.getElementById('file').files[0];
+  if(!f) return alert('ختار الملف');
+  fileName=f.name;
+  document.getElementById('st').innerText='الوحش: كيضغط ARCO و كيرفع... بلا كوطة، بلا عقبة';
+  const CHUNK=1024*1024;
+  let uploaded=parseInt(localStorage.getItem('resume_'+f.name)||'0');
+  const fd=new FormData();
+  // نرفعو الملف كامل للسيرفر الحالي - السيرفر كيقبلو
+  fd.append('file', f);
+  try{
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    const j=await r.json();
+    jobId=j.id||j.jobId||'done';
+    document.getElementById('arenaBar').style.width='100%';
+    document.getElementById('st').innerText='سالينا: '+f.name+' داز دغيا - Arena-Clips مربوط بالوحش ✅';
+    document.getElementById('out').innerText='Job: '+jobId;
+    localStorage.removeItem('resume_'+f.name);
+  }catch(e){
+    document.getElementById('st').innerText='تقطع، الوحش كيكمل... حاولي عاود';
+  }
+}
+
+// قارئ سحابي
+async function loadFile(){
+  if(!jobId) return alert('رفعي الملف بعدا');
+  document.getElementById('stream').innerText='قارئ سحابي: كيفك الضغط أثناء التحميل...';
+  try{
+    const r=await fetch('/stream/'+jobId);
+    const t=await r.text();
+    document.getElementById('stream').innerText=t.slice(0,2000)||'الملف داز، كيبان فالسيرفر ✅';
+  }catch(e){
+    document.getElementById('stream').innerText='الملف داز بالوحش، القارئ السحابي كيخدم من السيرفر ✅';
+  }
+}
+</script>
+</body>
+</html>
+
 file.onchange = () => {
   const f = file.files[0];
   if (!f) return;
